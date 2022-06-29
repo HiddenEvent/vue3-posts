@@ -2,10 +2,14 @@
   <div>
     <ul class="nav">
       <li class="nav-item">
-        <RouterLink class="nav-link" active-class="active" to="/nested/one"> Nested One </RouterLink>
+        <RouterLink class="nav-link" active-class="active" :to="{ name: 'NestedOne', replace: true }">
+          Nested One
+        </RouterLink>
       </li>
       <li class="nav-item">
-        <RouterLink class="nav-link" active-class="active" to="/nested/two"> Nested Two </RouterLink>
+        <RouterLink class="nav-link" active-class="active" :to="{ name: 'NestedTwo', replace: true }">
+          Nested Two
+        </RouterLink>
       </li>
     </ul>
     <hr class="my-4" />
