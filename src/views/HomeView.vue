@@ -13,7 +13,9 @@ const route = useRoute();
 console.log('route.path : ', route.path);
 const router = useRouter();
 const goAboutPage = () => {
-  router.push('/about');
+  router.push({
+    name: 'About',
+  });
 };
 </script>
 <script>
