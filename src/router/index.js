@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
 import AboutView from '@/views/AboutView.vue';
 import postListView from '@/views/posts/PostListView.vue';
@@ -76,7 +76,11 @@ const routes = [
   },
 ];
 const router = createRouter({
+  /*createWebHistory: 히스토리 모드로 동작*/
   history: createWebHistory('/'),
+  /*createWebHashHistory: #이 붙는 url이 자동생성 된다.*/
+  /*seo에 최적화가 매우 나쁨.. 사용하지 말자..*/
+  // history: createWebHashHistory(),
   routes,
 });
 
