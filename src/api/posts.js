@@ -1,14 +1,29 @@
+import { posts } from '@/api/index';
+import axios from 'axios';
+
 // axios
-const posts = [
-  { id: 1, title: '제목1', content: '내용1', createdAt: '2020-01-01' },
-  { id: 2, title: '제목2', content: '내용2', createdAt: '2020-01-02' },
-  { id: 3, title: '제목3', content: '내용3', createdAt: '2020-01-03' },
-  { id: 4, title: '제목4', content: '내용4', createdAt: '2020-01-04' },
-];
+const token =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3PthqDtgbAiLCJpZCI6MywiZXhwIjoxNjU2NTk3OTI3fQ.cy2aY78t9i6WHgRCCER3v28MSBAAo8O7j6snA2nc7b2LEJ5Ye1epUiGatU7KFWdYpKiMjWkuw58P29RdGiGjCA';
+const Authorization = {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
 
 export function getPosts() {
-  return posts;
+  return posts.get('', Authorization);
+  // return axios.get(`${import.meta.env.VITE_APP_API_URL}api/init/user`);
+  // return axios.get(`/api/init/user`);
 }
 export function getPostById(id) {
-  return posts.find(item => item.id === id);
+  return posts.get(id, Authorization);
+}
+export function createPost(data) {
+  return posts.post(``, data);
+}
+export function updatePost(id, data) {
+  return posts.put(`/${id}`, data);
+}
+export function deletePost(id) {
+  return posts.delete(`/${id}`);
 }
