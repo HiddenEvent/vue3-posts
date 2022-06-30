@@ -12,7 +12,7 @@ const Authorization = {
 
 export function getPosts() {
   return posts.get('', Authorization);
-  // return axios.get(`${import.meta.env.VITE_APP_API_URL}api/init/user`);
+  // return axios.get(`api/init/user`);
   // return axios.get(`/api/init/user`);
 }
 export function getPostById(id) {
