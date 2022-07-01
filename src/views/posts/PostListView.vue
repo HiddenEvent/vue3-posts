@@ -1,6 +1,9 @@
 <template>
   <div>
     <h2>게시글 목록</h2>
+    <h2>페이지 총 {{ paging.totalPages }} 개</h2>
+    <h2>총 {{ paging.totalElements }} 개</h2>
+    {{ paging.number }}
     <hr class="my-4" />
     <div class="row g-3">
       <div v-for="post in posts" :key="post.id" class="col-4">
@@ -12,6 +15,28 @@
         ></PostItem>
       </div>
     </div>
+    <nav class="mt-5" aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li
+          v-for="number in paging.totalPages"
+          :key="number"
+          :class="{ active: number + 1 === paging.number }"
+          class="page-item"
+        >
+          <a class="page-link" href="#">{{ number }}</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
     <div class="my-4">
       <AppCard>
         <PostDetailView :id="'2'"></PostDetailView>
@@ -27,12 +52,26 @@ import { getPosts } from '@/api/posts';
 import { useRouter } from 'vue-router';
 import AppCard from '@/components/AppCard.vue';
 const router = useRouter();
-
+const paging = ref({
+  first: false,
+  empty: false,
+  last: false,
+  totalPages: 0,
+  totalElements: 0,
+  size: 0,
+  number: 0,
+  numberOfElements: 0,
+});
 const posts = ref([]);
+
 const fetchPosts = async () => {
   try {
-    const { data } = await getPosts();
-    posts.value = data.data;
+    const { data } = await getPosts(1);
+    const page = data.data;
+    posts.value = page.content;
+    paging.value.totalPages = page.totalPages;
+    paging.value.totalElements = page.totalElements;
+    paging.value.number = page.number;
   } catch (e) {
     console.error(e);
   }
