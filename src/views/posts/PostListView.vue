@@ -14,7 +14,7 @@
     </div>
     <div class="my-4">
       <AppCard>
-        <PostDetailView :id="2"></PostDetailView>
+        <PostDetailView :id="'2'"></PostDetailView>
       </AppCard>
     </div>
   </div>
@@ -30,11 +30,12 @@ const router = useRouter();
 
 const posts = ref([]);
 const fetchPosts = async () => {
-  const response = await getPosts();
-  console.log(response);
-  // getPosts().then(response => {
-  //   console.log('response : ', response);
-  // });
+  try {
+    const { data } = await getPosts();
+    posts.value = data.data;
+  } catch (e) {
+    console.error(e);
+  }
 };
 const goPage = id => {
   // router.push(`/posts/${id}`);

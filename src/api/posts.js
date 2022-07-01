@@ -1,9 +1,8 @@
 import { posts } from '@/api/index';
-import axios from 'axios';
 
 // axios
 const token =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3PthqDtgbAiLCJpZCI6MywiZXhwIjoxNjU2NTk3OTI3fQ.cy2aY78t9i6WHgRCCER3v28MSBAAo8O7j6snA2nc7b2LEJ5Ye1epUiGatU7KFWdYpKiMjWkuw58P29RdGiGjCA';
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3PthqDtgbAiLCJpZCI6MywiZXhwIjoxNjU2NjY2ODEzfQ.69avzPJ2fzZkqrABJOb3N0m5RxTf9L1JkMbZe5Wq5AT3cAChY_OJa0Y7K_IQ2C2zEk3qciP2NXqdklft3lrUrQ';
 const Authorization = {
   headers: {
     Authorization: `Bearer ${token}`,
@@ -12,18 +11,16 @@ const Authorization = {
 
 export function getPosts() {
   return posts.get('', Authorization);
-  // return axios.get(`api/init/user`);
-  // return axios.get(`/api/init/user`);
 }
 export function getPostById(id) {
   return posts.get(id, Authorization);
 }
 export function createPost(data) {
-  return posts.post(``, data);
+  return posts.post(``, data, Authorization);
 }
 export function updatePost(id, data) {
-  return posts.put(`/${id}`, data);
+  return posts.put(id, data, Authorization);
 }
 export function deletePost(id) {
-  return posts.delete(`/${id}`);
+  return posts.delete(id, Authorization);
 }
