@@ -2,23 +2,22 @@ import { posts } from '@/api/index';
 
 // axios
 const token =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3PthqDtgbAiLCJpZCI6MywiZXhwIjoxNjU2Njc0Nzc4fQ.UNWyiSXp3MeAi8Mc1Fy30BCX5c6Uvv79zrGPc-RYZBsYBfN6XHgxEi6r_5zUnQoNdS6fiuG8Z7iE6ugDqANuLw';
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3PthqDtgbAiLCJpZCI6MywiZXhwIjoxNjU2OTEwNTYwfQ.NHyiWfNFYHiECaHg-9_lBl0SuaSrbzFAwVlYWkU3-lNTg_aIUmHlgku5JpKdal6OI7Mg6D_719AO37WKTcLC0A';
 const Authorization = {
   headers: {
     Authorization: `Bearer ${token}`,
   },
 };
 
-export function getPosts(pageNumber) {
-  return posts.get(
-    '',
-    {
-      params: {
-        pageNumber,
-      },
+export function getPosts(number) {
+  return posts.get('', {
+    params: {
+      number,
     },
-    Authorization,
-  );
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
 export function getPostById(id) {
   return posts.get(id, Authorization);
