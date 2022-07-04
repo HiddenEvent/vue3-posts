@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+axios.defaults.timeout = 10000;
 function create(baseURL, options) {
   return axios.create(Object.assign({ baseURL }, options));
 }

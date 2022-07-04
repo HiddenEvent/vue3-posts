@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <AppLoading v-if="loading"></AppLoading>
+  <AppError v-else-if="error" :message="error.message"></AppError>
+  <div v-else>
     <h2>게시글 수정</h2>
     <hr class="my-4" />
     <div class="mb-3">
@@ -22,6 +24,8 @@ import { getPostById, updatePost } from '@/api/posts';
 import { ref } from 'vue';
 import { useAlert } from '@/composables/alert';
 const { vAlert, vSuccess } = useAlert();
+const error = ref(null);
+const loading = ref(false);
 
 const route = useRoute();
 const router = useRouter();
@@ -40,10 +44,13 @@ const form = ref({
 
 const fetchPost = async () => {
   try {
+    loading.value = true;
     const { data } = await getPostById(id);
     setForm(data.data);
   } catch (e) {
-    console.log(e);
+    error.value = e;
+  } finally {
+    loading.value = false;
   }
 };
 const setForm = ({ title, content }) => {

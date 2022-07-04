@@ -7,38 +7,40 @@
     <hr class="my-4" />
     <AppLoading v-if="loading"></AppLoading>
     <AppError v-else-if="error" :message="error.message"></AppError>
-    <div class="row g-3">
-      <div v-for="post in posts" :key="post.id" class="col-4">
-        <PostItem
-          :title="post.title"
-          :content="post.content"
-          :created-at="post.createdAt"
-          @click="goPage(post.id)"
-        ></PostItem>
+    <template v-else>
+      <div class="row g-3">
+        <div v-for="post in posts" :key="post.id" class="col-4">
+          <PostItem
+            :title="post.title"
+            :content="post.content"
+            :created-at="post.createdAt"
+            @click="goPage(post.id)"
+          ></PostItem>
+        </div>
       </div>
-    </div>
-    <nav class="mt-5" aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li class="page-item" :class="{ disabled: paging.first }">
-          <a class="page-link" href="#" aria-label="Previous" @click.prevent="--paging.number">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li
-          v-for="number in paging.totalPages"
-          :key="number"
-          :class="{ active: paging.number + 1 === number }"
-          class="page-item"
-        >
-          <a class="page-link" href="#" @click.prevent="paging.number = number - 1">{{ number }}</a>
-        </li>
-        <li class="page-item" :class="{ disabled: paging.last }">
-          <a class="page-link" href="#" aria-label="Next" @click.prevent="++paging.number">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+      <nav class="mt-5" aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" :class="{ disabled: paging.first }">
+            <a class="page-link" href="#" aria-label="Previous" @click.prevent="--paging.number">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li
+            v-for="number in paging.totalPages"
+            :key="number"
+            :class="{ active: paging.number + 1 === number }"
+            class="page-item"
+          >
+            <a class="page-link" href="#" @click.prevent="paging.number = number - 1">{{ number }}</a>
+          </li>
+          <li class="page-item" :class="{ disabled: paging.last }">
+            <a class="page-link" href="#" aria-label="Next" @click.prevent="++paging.number">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </template>
     <div class="my-4">
       <AppCard>
         <PostDetailView :id="'2'"></PostDetailView>
@@ -81,8 +83,7 @@ const fetchPosts = async () => {
     paging.value.first = page.first;
     paging.value.number = page.number;
   } catch (e) {
-    console.error(e);
-    error.value = error;
+    error.value = e;
   } finally {
     loading.value = false;
   }

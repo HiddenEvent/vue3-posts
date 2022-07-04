@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <AppLoading v-if="loading"></AppLoading>
+  <AppError v-else-if="error" :message="error.message"></AppError>
+  <div v-else>
     <h2>{{ post.title }}</h2>
     <p>{{ post.content }}</p>
     <p class="text-muted">{{ $dayjs(post.createdAt).format('YYYY. MM. DD HH:mm:ss') }}</p>
@@ -32,17 +34,25 @@ import { ref } from 'vue';
 const props = defineProps({
   id: String,
 });
+const error = ref(null);
+const loading = ref(false);
 
 const router = useRouter();
 // const route = useRoute();
 // const id = route.params.id;
-const post = ref({});
+const post = ref({
+  title: null,
+  content: null,
+});
 const fetchPost = async () => {
   try {
+    loading.value = true;
     const { data } = await getPostById(props.id);
     setPost(data.data);
   } catch (e) {
-    console.log(e);
+    error.value = e;
+  } finally {
+    loading.value = false;
   }
 };
 const setPost = ({ title, content }) => {
