@@ -10,6 +10,7 @@ declare module '@vue/runtime-core' {
     AppAlert: typeof import('./src/components/app/AppAlert.vue')['default']
     AppCard: typeof import('./src/components/app/AppCard.vue')['default']
     AppError: typeof import('./src/components/app/AppError.vue')['default']
+    AppGrid: typeof import('./src/components/app/AppGrid.vue')['default']
     AppLoading: typeof import('./src/components/app/AppLoading.vue')['default']
     AppPagination: typeof import('./src/components/app/AppPagination.vue')['default']
     PostForm: typeof import('./src/components/posts/PostForm.vue')['default']

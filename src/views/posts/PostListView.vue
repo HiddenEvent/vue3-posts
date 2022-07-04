@@ -8,16 +8,16 @@
     <AppLoading v-if="loading"></AppLoading>
     <AppError v-else-if="error" :message="error.message"></AppError>
     <template v-else>
-      <div class="row g-3">
-        <div v-for="post in posts" :key="post.id" class="col-4">
+      <AppGrid :items="posts">
+        <template v-slot="{ item }">
           <PostItem
-            :title="post.title"
-            :content="post.content"
-            :created-at="post.createdAt"
-            @click="goPage(post.id)"
+            :title="item.title"
+            :content="item.content"
+            :created-at="item.createdAt"
+            @click="goPage(item.id)"
           ></PostItem>
-        </div>
-      </div>
+        </template>
+      </AppGrid>
     </template>
     <AppPagination
       :is-last="paging.last"
@@ -40,9 +40,6 @@ import PostDetailView from '@/views/posts/PostDetailView.vue';
 import { ref, watchEffect } from 'vue';
 import { getPosts } from '@/api/posts';
 import { useRouter } from 'vue-router';
-import AppLoading from '@/components/app/AppLoading.vue';
-import AppError from '@/components/app/AppError.vue';
-import AppPagination from '@/components/app/AppPagination.vue';
 const error = ref(null);
 const loading = ref(false);
 const router = useRouter();
