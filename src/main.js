@@ -5,9 +5,11 @@ import App from './App.vue';
 import router from '@/router';
 import person from '@/plugins/person';
 import globalComponents from '@/plugins/global-components';
+import globalDirectives from '@/plugins/global-directives';
 
 const app = createApp(App);
 app.use(person);
+app.use(globalDirectives);
 app.use(globalComponents);
 app.use(router);
 app.mount('#app');
