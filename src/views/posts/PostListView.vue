@@ -18,34 +18,20 @@
           ></PostItem>
         </div>
       </div>
-      <nav class="mt-5" aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-          <li class="page-item" :class="{ disabled: paging.first }">
-            <a class="page-link" href="#" aria-label="Previous" @click.prevent="--paging.number">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li
-            v-for="number in paging.totalPages"
-            :key="number"
-            :class="{ active: paging.number + 1 === number }"
-            class="page-item"
-          >
-            <a class="page-link" href="#" @click.prevent="paging.number = number - 1">{{ number }}</a>
-          </li>
-          <li class="page-item" :class="{ disabled: paging.last }">
-            <a class="page-link" href="#" aria-label="Next" @click.prevent="++paging.number">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
     </template>
-    <div class="my-4">
+    <AppPagination
+      :is-last="paging.last"
+      :is-first="paging.first"
+      :page-count="paging.totalPages"
+      :current-page="paging.number"
+      @page="page => (paging.number = page)"
+    />
+    <template v-if="posts && posts.length > 0">
+      <hr class="my-5" />
       <AppCard>
-        <PostDetailView :id="'2'"></PostDetailView>
+        <PostDetailView :id="posts[0].id"></PostDetailView>
       </AppCard>
-    </div>
+    </template>
   </div>
 </template>
 <script setup>
@@ -56,11 +42,12 @@ import { getPosts } from '@/api/posts';
 import { useRouter } from 'vue-router';
 import AppLoading from '@/components/app/AppLoading.vue';
 import AppError from '@/components/app/AppError.vue';
+import AppPagination from '@/components/app/AppPagination.vue';
 const error = ref(null);
 const loading = ref(false);
 const router = useRouter();
 const paging = ref({
-  first: false,
+  first: true,
   empty: false,
   last: false,
   totalPages: 0,
@@ -81,14 +68,14 @@ const fetchPosts = async () => {
     paging.value.totalElements = page.totalElements;
     paging.value.last = page.last;
     paging.value.first = page.first;
-    paging.value.number = page.number;
   } catch (e) {
     error.value = e;
   } finally {
     loading.value = false;
   }
 };
-watchEffect(fetchPosts);
+// fetchPosts();
+watchEffect(fetchPosts); /* 초기 1회 실행 한다.*/
 
 const goPage = id => {
   // router.push(`/posts/${id}`);
@@ -104,7 +91,6 @@ const goPage = id => {
     hash: '#world!',
   });
 };
-fetchPosts();
 </script>
 <script>
 export default {};
