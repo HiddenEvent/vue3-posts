@@ -2,7 +2,7 @@ import { posts } from '@/api/index';
 
 // axios
 const token =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3PthqDtgbAiLCJpZCI6MywiZXhwIjoxNjU2OTEwNTYwfQ.NHyiWfNFYHiECaHg-9_lBl0SuaSrbzFAwVlYWkU3-lNTg_aIUmHlgku5JpKdal6OI7Mg6D_719AO37WKTcLC0A';
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3PthqDtgbAiLCJpZCI6MywiZXhwIjoxNjU2OTE0NzU5fQ.IIR6cj0Rj10ySNDYRsUSVXrXc8RBYVKjRX4fp_p7iOkvD677VZGzsHfOpr2_Euq0w4bw9BxxPhyQ44ReUiPg0g';
 const Authorization = {
   headers: {
     Authorization: `Bearer ${token}`,
