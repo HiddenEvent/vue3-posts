@@ -5,6 +5,8 @@
     <h2>총 {{ paging.totalElements }} 개</h2>
     {{ paging.number }}
     <hr class="my-4" />
+    <AppLoading v-if="loading"></AppLoading>
+    <AppError v-else-if="error" :message="error.message"></AppError>
     <div class="row g-3">
       <div v-for="post in posts" :key="post.id" class="col-4">
         <PostItem
@@ -50,6 +52,10 @@ import PostDetailView from '@/views/posts/PostDetailView.vue';
 import { ref, watchEffect } from 'vue';
 import { getPosts } from '@/api/posts';
 import { useRouter } from 'vue-router';
+import AppLoading from '@/components/app/AppLoading.vue';
+import AppError from '@/components/app/AppError.vue';
+const error = ref(null);
+const loading = ref(false);
 const router = useRouter();
 const paging = ref({
   first: false,
@@ -65,6 +71,7 @@ const posts = ref([]);
 
 const fetchPosts = async () => {
   try {
+    loading.value = true;
     const { data } = await getPosts(paging.value.number);
     const page = data.data;
     posts.value = page.content;
@@ -75,6 +82,9 @@ const fetchPosts = async () => {
     paging.value.number = page.number;
   } catch (e) {
     console.error(e);
+    error.value = error;
+  } finally {
+    loading.value = false;
   }
 };
 watchEffect(fetchPosts);
