@@ -7,7 +7,6 @@
         v-color="'blue'"
         :value="title"
         @input="$emit('update:title', $event.target.value)"
-        type="email"
         class="form-control"
         id="title"
       />
