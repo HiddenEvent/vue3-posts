@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { fileURLToPath, URL } from 'url';
+import Components from 'unplugin-vue-components/vite';
 
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
@@ -9,7 +10,12 @@ export default ({ mode }) => {
   // import.meta.env.VITE_PORT available here with: process.env.VITE_PORT
 
   return defineConfig({
-    plugins: [vue()],
+    plugins: [
+      vue(),
+      Components({
+        dts: true,
+      }),
+    ],
     // mode: 'production', <========  mode 사용할 수 없다1!!
     resolve: {
       alias: {

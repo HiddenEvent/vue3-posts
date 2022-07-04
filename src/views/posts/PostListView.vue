@@ -50,7 +50,6 @@ import PostDetailView from '@/views/posts/PostDetailView.vue';
 import { ref, watchEffect } from 'vue';
 import { getPosts } from '@/api/posts';
 import { useRouter } from 'vue-router';
-import AppCard from '@/components/AppCard.vue';
 const router = useRouter();
 const paging = ref({
   first: false,

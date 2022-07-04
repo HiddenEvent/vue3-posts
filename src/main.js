@@ -3,7 +3,14 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from '@/router';
-createApp(App).use(router).mount('#app');
+import person from '@/plugins/person';
+import globalComponents from '@/plugins/global-components';
+
+const app = createApp(App);
+app.use(person);
+app.use(globalComponents);
+app.use(router);
+app.mount('#app');
 import 'bootstrap/dist/js/bootstrap.js';
 
 console.log('Mode: ', import.meta.env);
