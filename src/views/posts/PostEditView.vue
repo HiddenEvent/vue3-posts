@@ -20,12 +20,10 @@
 </template>
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-import { getPostById, updatePost } from '@/api/posts';
-import { ref } from 'vue';
 import { useAlert } from '@/composables/alert';
+import { useAxios } from '@/composables/useAxios';
+
 const { vAlert, vSuccess } = useAlert();
-const error = ref(null);
-const loading = ref(false);
 
 const route = useRoute();
 const router = useRouter();
@@ -36,37 +34,25 @@ const goDetailPage = () => {
     params: { id },
   });
 };
+const { response: form, loading, error, data } = useAxios(`/post/${id}`);
 
-const form = ref({
-  title: null,
-  content: null,
-});
+const { execute } = useAxios(
+  `/post/${id}`,
+  { method: 'put' },
+  {
+    immediate: false,
+    onSuccess: () => {
+      router.push({ name: 'PostDetail', params: { id } });
+      vSuccess('수정완료');
+    },
+    onError: err => {
+      vAlert(err.message);
+    },
+  },
+);
 
-const fetchPost = async () => {
-  try {
-    loading.value = true;
-    const { data } = await getPostById(id);
-    setForm(data.data);
-  } catch (e) {
-    error.value = e;
-  } finally {
-    loading.value = false;
-  }
-};
-const setForm = ({ title, content }) => {
-  form.value.title = title;
-  form.value.content = content;
-};
-fetchPost();
 const edit = async () => {
-  try {
-    await updatePost(id, { ...form.value });
-    router.push({ name: 'PostDetail', params: { id } });
-    vSuccess('수정완료');
-  } catch (e) {
-    console.log(e);
-    vAlert('네트워크 오류');
-  }
+  execute({ title: form.value.title, content: form.value.content });
 };
 </script>
 <script>

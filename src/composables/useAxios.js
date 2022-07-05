@@ -10,16 +10,24 @@ axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : nul
 const defaultConfig = {
   method: 'get',
 };
+const defaultOptions = {
+  immediate: true,
+};
 
-export const useAxios = (url, config = {}) => {
+export const useAxios = (url, config = {}, options = {}) => {
   const response = ref(null);
   const data = ref(null);
   const error = ref(null);
   const loading = ref(false);
 
+  const { onSuccess, onError, immediate } = {
+    ...defaultOptions,
+    ...options,
+  };
+
   const { params } = config;
   // 시작
-  const execute = () => {
+  const execute = body => {
     data.value = null;
     error.value = null;
     loading.value = true;
@@ -27,13 +35,22 @@ export const useAxios = (url, config = {}) => {
       ...defaultConfig /*디폴트 get 요청 설정*/,
       ...config /*설정 덮어 씌우기*/,
       params: unref(params),
+      data: typeof body === 'object' ? body : {} /*watchEffect로 실행될 경우 함수로 들어오기때문에 예외처리*/,
     })
       .then(res => {
         response.value = res.data.data;
-        data.value = res.data.data.content;
+        if (res.data.data) {
+          data.value = res.data.data.content;
+        }
+        if (onSuccess) {
+          onSuccess(res);
+        }
       })
       .catch(err => {
         error.value = err;
+        if (onError) {
+          onError(err);
+        }
       })
       .finally(() => {
         loading.value = false;
@@ -45,12 +62,15 @@ export const useAxios = (url, config = {}) => {
     watchEffect(execute);
   } else {
     /*데이터가 일반변수 일경우 한번만 엑션*/
-    execute();
+    if (immediate) {
+      execute();
+    }
   }
   return {
     response,
     data,
     error,
     loading,
+    execute,
   };
 };
