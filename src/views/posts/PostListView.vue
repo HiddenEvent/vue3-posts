@@ -18,25 +18,24 @@
           ></PostItem>
         </template>
       </AppGrid>
+      <AppPagination
+        :is-last="paging.last"
+        :is-first="paging.first"
+        :page-count="paging.totalPages"
+        :current-page="params.number"
+        @page="page => (params.number = page)"
+      />
+      <template v-if="posts && posts.length > 0">
+        <hr class="my-5" />
+        <AppCard>
+          <PostDetailView :id="posts[0].id"></PostDetailView>
+        </AppCard>
+      </template>
     </template>
-    <AppPagination
-      :is-last="paging.last"
-      :is-first="paging.first"
-      :page-count="paging.totalPages"
-      :current-page="params.number"
-      @page="page => (params.number = page)"
-    />
-    <!--    <template v-if="posts && posts.length > 0">-->
-    <!--      <hr class="my-5" />-->
-    <!--      <AppCard>-->
-    <!--        <PostDetailView :id="posts[0].id"></PostDetailView>-->
-    <!--      </AppCard>-->
-    <!--    </template>-->
   </div>
 </template>
 <script setup>
-import PostItem from '@/components/posts/PostItem.vue';
-// import PostDetailView from '@/views/posts/PostDetailView.vue';
+import PostDetailView from '@/views/posts/PostDetailView.vue';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAxios } from '@/composables/useAxios';
@@ -53,31 +52,6 @@ const params = ref({
 // });
 const { response: paging, data: posts, error, loading } = useAxios('/post', { params });
 // const totalPages = computed(() => response.value.totalPages);
-
-// paging.value.totalPages = response.totalPages;
-// paging.value.totalPages = page.totalPages;
-//     paging.value.totalElements = page.totalElements;
-//     paging.value.last = page.last;
-//     paging.value.first = page.first;
-
-// const fetchPosts = async () => {
-//   try {
-//     loading.value = true;
-//     const { data } = await getPosts(paging.value.number);
-//     const page = data.data;
-//     posts.value = page.content;
-//     paging.value.totalPages = page.totalPages;
-//     paging.value.totalElements = page.totalElements;
-//     paging.value.last = page.last;
-//     paging.value.first = page.first;
-//   } catch (e) {
-//     error.value = e;
-//   } finally {
-//     loading.value = false;
-//   }
-// };
-// fetchPosts();
-// watchEffect(fetchPosts); /* 초기 1회 실행 한다.*/
 
 const goPage = id => {
   // router.push(`/posts/${id}`);
