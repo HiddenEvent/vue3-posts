@@ -10,10 +10,10 @@
     <hr class="my-4" />
     <div class="row g-2">
       <div class="col-auto">
-        <button class="btn btn-outline-dark">이전글</button>
+        <button class="btn btn-outline-dark" @click="$router.push(`/posts/2`)">이전글</button>
       </div>
       <div class="col-auto">
-        <button class="btn btn-outline-dark">다음글</button>
+        <button class="btn btn-outline-dark" @click="$router.push(`/posts/3`)">다음글</button>
       </div>
       <div class="col-auto me-auto"></div>
       <div class="col-auto">
@@ -29,7 +29,7 @@
   </div>
 </template>
 <script setup>
-import { useRouter } from 'vue-router';
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from 'vue-router';
 import { useAxios } from '@/composables/useAxios';
 import { useAlert } from '@/composables/alert';
 import { computed, toRefs } from 'vue';
@@ -45,11 +45,7 @@ const { isOdd } = useNumber(idRef);
 const router = useRouter();
 const url = computed(() => `/post/${props.id}`);
 const { data, error, loading, response: post } = useAxios(url);
-const {
-  execute,
-  error: removeError,
-  loading: removeLoading,
-} = useAxios(
+const { execute } = useAxios(
   `/post/${props.id}`,
   { method: 'delete' },
   {
@@ -83,9 +79,21 @@ const goEditPage = () => {
     },
   });
 };
+/*  ============== 컴포넌트내에 가드 설정  =====================*/
+onBeforeRouteUpdate(() => {
+  console.log('onBeforeRouteUpdate'); /*router 경로가 변경 되었을때*/
+});
+onBeforeRouteLeave(() => {
+  console.log('onBeforeRouteLeave'); /*페이지를 나갈때 변경 되었을때*/
+});
 </script>
+
 <script>
-export default {};
+export default {
+  beforeRouteEnter() {
+    console.log('beforeRouteEnter'); /*페이지를 들어오때 호출*/
+  },
+};
 </script>
 
 <style scoped></style>

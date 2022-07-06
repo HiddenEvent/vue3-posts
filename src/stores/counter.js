@@ -1,4 +1,3 @@
-// Pinia 설정
 import { defineStore } from 'pinia';
 
 // 매개변수1 : 어플리케이션 전체에서 고유키값

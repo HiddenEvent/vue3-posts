@@ -4,7 +4,7 @@ import { isRef, ref, unref, watchEffect } from 'vue';
 axios.defaults.timeout = 10000;
 axios.defaults.baseURL = '/api';
 const token =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3PthqDtgbAiLCJpZCI6MywiZXhwIjoxNjU3MTA4NzM0fQ.0eWec_NqeIiQhcw5DIc9VBHH5nuud2A9iZ_tKZAJLdAzU0MqbvK0OIYd-CtHNw9FtYpStPpHLm6VXxFIo5Z3Qg';
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3PthqDtgbAiLCJpZCI6MywiZXhwIjoxNjU3MTc5Mzk5fQ.ccIw0XgDfldrpoo7PFFUBC9NCuVOThQmiwPVobtL-glFdEIEFNwktj7cMFyQ9u7r3xCzsW7B4kjYfRuoJhYcwA';
 
 axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : null;
 const defaultConfig = {

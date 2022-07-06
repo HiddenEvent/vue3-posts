@@ -51,24 +51,6 @@ const routes = [
     component: NotFoundView,
   },
   {
-    path: '/my',
-    name: 'MyPage',
-    component: MyPage,
-    /*  ============== 지역가드 설정 (Global Before Guards) =====================*/
-    beforeEnter: (to, from) => {
-      // console.log('to 이동할 페이지 : ', to);
-      // console.log('from 이동하기전 페이지 : ', from);
-      // return false;
-      // return '/posts';
-      // return router.push({ name: 'Home' });
-      console.log(to.query);
-      if (Object.keys(to.query).length > 0) {
-        /*queryString 삭제*/
-        return { path: to.path, query: {} };
-      }
-    },
-  },
-  {
     path: '/nested',
     name: 'Nested',
     component: NestedView,
@@ -93,7 +75,21 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/my',
+    name: 'MyPage',
+    component: MyPage,
+    /*  ============== 지역가드 설정 (Global Before Guards) =====================*/
+    beforeEnter: removeQueryString,
+  },
 ];
+function removeQueryString(to) {
+  if (Object.keys(to.query).length > 0) {
+    /*queryString 삭제*/
+    return { path: to.path, query: {} };
+  }
+}
+
 const router = createRouter({
   /*createWebHistory: 히스토리 모드로 동작*/
   history: createWebHistory('/'),
