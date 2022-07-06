@@ -1,7 +1,6 @@
-import { computed, isRef, unref } from 'vue';
+import { computed, unref } from 'vue';
 
 export const useNumber = number => {
-  console.log(unref(number));
   const isOdd = computed(() => unref(number) % 2 === 1);
   const isEven = computed(() => !isOdd.value);
   return {

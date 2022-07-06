@@ -3,34 +3,20 @@
     <div v-if="show" class="app-alert alert" :class="styleClass" role="alert">{{ message }}</div>
   </Transition>-->
   <div class="app-alert">
-    <div v-for="({ message, type }, index) in items" :key="index" class="alert" :class="typeStyle(type)" role="alert">
+    <div v-for="({ message, type }, index) in alerts" :key="index" class="alert" :class="typeStyle(type)" role="alert">
       {{ message }}
     </div>
   </div>
 </template>
 
 <script setup>
-defineProps({
-  items: Array,
-});
-const typeStyle = type => (type === 'error' ? 'alert-danger' : 'alert-success');
+import { useAlert } from '@/composables/alert';
 
-// const props = defineProps({
-//   show: {
-//     type: Boolean,
-//     default: false,
-//   },
-//   message: {
-//     type: String,
-//     required: true,
-//   },
-//   type: {
-//     type: String,
-//     default: '',
-//     validator: value => ['success', 'error'].includes(value),
-//   },
-// });
+const { alerts } = useAlert();
+
+const typeStyle = type => (type === 'error' ? 'alert-danger' : 'alert-success');
 </script>
+
 <script>
 export default {};
 </script>

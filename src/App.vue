@@ -1,8 +1,6 @@
 <script setup>
 import TheHeader from '@/layout/TheHeader.vue';
 import TheView from '@/layout/TheView.vue';
-import { useAlert } from '@/composables/alert';
-const { alerts } = useAlert();
 </script>
 
 <template>
@@ -10,7 +8,7 @@ const { alerts } = useAlert();
 
   <TheView></TheView>
 
-  <AppAlert :items="alerts" />
+  <AppAlert />
 </template>
 
 <style></style>
