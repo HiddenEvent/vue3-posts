@@ -1,4 +1,3 @@
-vb
 <template>
   <div>
     <header>
@@ -29,6 +28,9 @@ vb
               </li>
               <li class="nav-item">
                 <RouterLink class="nav-link" active-class="active" to="/nested">Nested</RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink class="nav-link" active-class="active" to="/my">MyPage</RouterLink>
               </li>
             </ul>
             <div class="d-flex" role="search">

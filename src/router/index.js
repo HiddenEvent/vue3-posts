@@ -10,6 +10,7 @@ import NestedView from '@/views/nested/NestedView.vue';
 import NestedOneView from '@/views/nested/NestedOneView.vue';
 import NestedTwoView from '@/views/nested/NestedTwoView.vue';
 import NestedHomeView from '@/views/nested/NestedHomeView.vue';
+import MyPage from '@/views/MyPage.vue';
 
 const routes = [
   {
@@ -50,12 +51,30 @@ const routes = [
     component: NotFoundView,
   },
   {
+    path: '/my',
+    name: 'MyPage',
+    component: MyPage,
+    /*  ============== 지역가드 설정 (Global Before Guards) =====================*/
+    beforeEnter: (to, from) => {
+      // console.log('to 이동할 페이지 : ', to);
+      // console.log('from 이동하기전 페이지 : ', from);
+      // return false;
+      // return '/posts';
+      // return router.push({ name: 'Home' });
+      console.log(to.query);
+      if (Object.keys(to.query).length > 0) {
+        /*queryString 삭제*/
+        return { path: to.path, query: {} };
+      }
+    },
+  },
+  {
     path: '/nested',
     name: 'Nested',
     component: NestedView,
     children: [
       {
-        // /nested/one
+        // /nested
         path: '',
         name: 'NestedHome',
         component: NestedHomeView,
@@ -84,4 +103,20 @@ const router = createRouter({
   routes,
 });
 
+// ============== 전역가드 설정 (Global Before Guards) =====================
+/*
+ * return 값
+ * - undefined / true =>  반환되면 해당 네비게이션 가드가 검증이 된것으로 판단
+ * - false => 현재 라우팅(네비게이션)을 취소합니다.
+ * */
+// router.beforeEach((to, from) => {
+//   console.log('to 이동할 페이지 : ', to);
+//   console.log('from 이동하기전 페이지 : ', from);
+//   if (to.name === 'MyPage') {
+//     // return false;
+//     // return '/posts';
+//     // return router.push({ name: 'Home' });
+//   }
+// });
+// /*=========================================================================*/
 export default router;
