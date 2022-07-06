@@ -7,6 +7,7 @@ import person from '@/plugins/person';
 import globalComponents from '@/plugins/global-components';
 import globalDirectives from '@/plugins/global-directives';
 import dayjs from '@/plugins/dayjs';
+import { createPinia } from 'pinia';
 
 const app = createApp(App);
 app.use(person);
@@ -14,6 +15,7 @@ app.use(dayjs);
 app.use(globalDirectives);
 app.use(globalComponents);
 app.use(router);
+app.use(createPinia());
 app.mount('#app');
 import 'bootstrap/dist/js/bootstrap.js';
 
