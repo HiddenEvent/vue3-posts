@@ -30,14 +30,15 @@
 import { useRouter } from 'vue-router';
 import { useAxios } from '@/composables/useAxios';
 import { useAlert } from '@/composables/alert';
+import { computed } from 'vue';
 const { vAlert, vSuccess } = useAlert();
 const props = defineProps({
   id: (String, Number),
 });
 
 const router = useRouter();
-
-const { data, error, loading, response: post } = useAxios(`/post/${props.id}`);
+const url = computed(() => `/post/${props.id}`);
+const { data, error, loading, response: post } = useAxios(url);
 const {
   execute,
   error: removeError,

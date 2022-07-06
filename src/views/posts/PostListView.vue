@@ -15,6 +15,7 @@
             :content="item.content"
             :created-at="item.createdAt"
             @click="goPage(item.id)"
+            @preview="selectPreview(item.id)"
           ></PostItem>
         </template>
       </AppGrid>
@@ -25,10 +26,10 @@
         :current-page="params.number"
         @page="page => (params.number = page)"
       />
-      <template v-if="posts && posts.length > 0">
+      <template v-if="previewId">
         <hr class="my-5" />
         <AppCard>
-          <PostDetailView :id="posts[0].id"></PostDetailView>
+          <PostDetailView :id="previewId"></PostDetailView>
         </AppCard>
       </template>
     </template>
@@ -39,7 +40,8 @@ import PostDetailView from '@/views/posts/PostDetailView.vue';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAxios } from '@/composables/useAxios';
-
+const previewId = ref(null);
+const selectPreview = id => (previewId.value = id);
 const router = useRouter();
 const params = ref({
   number: 0,

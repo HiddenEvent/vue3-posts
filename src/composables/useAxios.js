@@ -4,7 +4,7 @@ import { isRef, ref, unref, watchEffect } from 'vue';
 axios.defaults.timeout = 10000;
 axios.defaults.baseURL = '/api';
 const token =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3PthqDtgbAiLCJpZCI6MywiZXhwIjoxNjU3MDY4MTUyfQ.JHQ6vjmdXGZn9Gl0td8eedYMu1P7BJHKhIH24fGQ-YbHkqKSdjNHsFXuRNamZLJSVVXLfuC__2Z0viLtUcW4YQ';
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3PthqDtgbAiLCJpZCI6MywiZXhwIjoxNjU3MTA4NzM0fQ.0eWec_NqeIiQhcw5DIc9VBHH5nuud2A9iZ_tKZAJLdAzU0MqbvK0OIYd-CtHNw9FtYpStPpHLm6VXxFIo5Z3Qg';
 
 axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : null;
 const defaultConfig = {
@@ -31,7 +31,8 @@ export const useAxios = (url, config = {}, options = {}) => {
     data.value = null;
     error.value = null;
     loading.value = true;
-    axios(url, {
+
+    axios(unref(url), {
       ...defaultConfig /*디폴트 get 요청 설정*/,
       ...config /*설정 덮어 씌우기*/,
       params: unref(params),
@@ -57,7 +58,7 @@ export const useAxios = (url, config = {}, options = {}) => {
       });
   };
 
-  if (isRef(params)) {
+  if (isRef(params) || isRef(url)) {
     /*데이터가 참조값일 경우 변경할 때마다 엑션*/
     watchEffect(execute);
   } else {
